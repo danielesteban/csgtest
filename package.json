@@ -1,0 +1,24 @@
+{
+  "name": "csgtest",
+  "scripts": {
+    "build": "rollup -c rollup.config.js",
+    "start": "pnpm build -w"
+  },
+  "type": "module",
+  "dependencies": {
+    "three": "^0.157.0",
+    "three-bvh-csg": "link:three-bvh-csg",
+    "three-mesh-bvh": "^0.6.8"
+  },
+  "devDependencies": {
+    "@rollup/plugin-html": "^1.0.3",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@types/three": "0.155.1",
+    "postcss": "^8.4.31",
+    "rollup": "^4.1.4",
+    "rollup-plugin-livereload": "^2.0.5",
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-serve": "^2.0.2"
+  }
+}
