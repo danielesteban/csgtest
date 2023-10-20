@@ -1,6 +1,7 @@
 import './main.css';
 import {
   BoxGeometry,
+  ConeGeometry,
   Mesh,
   MeshBasicMaterial,
   PerspectiveCamera,
@@ -10,7 +11,7 @@ import {
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { mergeVertices } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
-import { SUBTRACTION, Brush, Evaluator } from 'three-bvh-csg';
+import { ADDITION, SUBTRACTION, Brush, Evaluator } from 'three-bvh-csg';
 
 const renderer = new WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -23,7 +24,8 @@ window.addEventListener('resize', () => {
   camera.updateProjectionMatrix();
 }, false);
 const scene = new Scene();
-camera.position.set(0, 0, 6);
+camera.position.set(4, 4, 4);
+camera.lookAt(0, 0, 0);
 renderer.setAnimationLoop(() => {
   renderer.render(scene, camera);
 });
@@ -42,9 +44,12 @@ const materials = [
 
 const csg = new Evaluator();
 const base = new Brush(new BoxGeometry(2, 4, 2), materials[0]);
+const drill = new Brush(new ConeGeometry(1, 1), materials[0]);
+drill.geometry.rotateX(Math.PI);
+drill.geometry.translate(0, -2.5, 0);
 const connector = new Brush(new BoxGeometry(1.5, 1.5, 0.5), materials[1]);
 
-let brush = base;
+let brush = csg.evaluate(base, drill, ADDITION);
 connectors.forEach(({ position, rotation }) => {
   connector.position.copy(position);
   connector.rotation.y = rotation || 0;
